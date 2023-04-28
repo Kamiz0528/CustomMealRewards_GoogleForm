@@ -86,16 +86,16 @@
 					<p>感謝您的支持！</p>
 					<label class="form-group" for="first-name">
 						<input id="name" type="text" class="form-control" required>
-						<span>姓名 *</span>
+						<span>姓名</span>
 						<span class="border"></span>
 					</label>
-					<label class="form-group">
-						<input id="email" type="text" class="form-control"  required>
+					<label class="form-group" for="email">
+						<input id="email" type="email" class="form-control"  required>
 						<span for="email">Your Mail</span>
 						<span class="border"></span>
 					</label>
 					<span>評分(最高五分)</span>
-					<label class="form-group" for="email">
+					<label class="form-group">
 					<select class="form-control" id="score" style="border-bottom: 2px solid #00ade6">
 						<option>⭐⭐⭐⭐⭐</option>
 						<option>⭐⭐⭐⭐</option>
@@ -108,6 +108,11 @@
 						<textarea name="" id="message" class="form-control" required></textarea>
 						<span for="message">您的建議</span>
 						<span class="border"></span>
+					</label>
+					<span>是否願意收到電子報</span>
+					<label class="form-group">
+						<input type="radio" id="%E6%98%AF" name="news" value="是" required> 是
+						<input type="radio" id="%E5%90%A6" name="news" value="否" required> 否
 					</label>
 					<button>Submit 
 						<i class="zmdi zmdi-arrow-right"></i>
@@ -145,17 +150,19 @@
 			$('#google-form').submit(function (e) {
 			  //在這裡我們要先擋掉form默認事件
 			  e.preventDefault();
-		
+
 			  if ($('#name').val() && $('#score').val()) {//需要先確認必填欄位是否填寫
 				$.ajax({
 				  // url為Google Form按下submit的aciotn
 				  url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLScxh98oYf6sIPjPwTWHGIjT2y4op1eD-ThekF7eOzLLSfXEeA/formResponse",
 				  crossDomain: true,//解決跨網域CORS的問題
+				  
 				  data: {// entry.xxxxx 這些需要填寫您表單裡面的值，與其相互對應
 					"entry.1722577108": $('#name').val(),
 					"entry.1980502888": $('#email').val(),
 					"entry.1047356866": $('#score').val(),
-					"entry.554600266": $('#message').val()
+					"entry.554600266": $('#message').val(),
+					"entry.676057308": $('input[name=news]:checked').val()
 				  },
 				  type: "POST", //因為是要進行insert的動作，故事用POST
 				  dataType: "JSONP",
